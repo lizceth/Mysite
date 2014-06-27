@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block title %}{% trans 'Biblioteca Virtual' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'BIBLIOTECA VIRTUAL' %}</h1>
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="../../../jsi18n/"></script>
+{{ media }}
+{{ form.media }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+      <a href="../../../">
+        {% trans "Inicio" %} &rsaquo;
+      </a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+
+<form action="" method="POST" >{% csrf_token %}
+<h2>Prestamo de libros:</h2>
+<fieldset class="module aligned">
+<h2>Autenticación</h2>
+<div class="form-row">
+	<div class="field-box">
+        {{ form.Usuario.errors }}
+	{{ form.Usuario.label_tag }}:
+        {{ form.Usuario }}
+	</div>
+</div>
+<div class="form-row">
+	<div class="field-box">
+        {{ form.Password.errors }}
+	{{ form.Password.label_tag }}:
+        {{ form.Password }}
+        {{ form.Libro }}
+	</div>
+</div>
+</fieldset>
+<div class="submit-row">
+        <input class="default" type="submit" value="Prestar" />
+</div>
+</form>
+{% endblock %}

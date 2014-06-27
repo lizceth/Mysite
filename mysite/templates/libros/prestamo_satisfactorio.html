@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block title %}{% trans 'Biblioteca Virtual' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'BIBLIOTECA VIRTUAL' %}</h1>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="../../">- {% trans 'Volver' %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+        <h1>{{ usuario|escape }}</h1>
+        <h2>El libro {{ libro|escape }}, acaba de ser prestado.</h2>
+</div>
+{% endblock %}

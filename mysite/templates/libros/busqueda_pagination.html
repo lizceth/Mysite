@@ -1,0 +1,17 @@
+<p class="paginator">
+          <span class="step-links">
+          {% for page in page_numbers %}
+          {% if page %}
+              {% ifequal page page_obj.number %}
+                  <strong>{{ page }}</strong>
+              {% else %}
+                  <a href="?{% if query %}q={{ query }}&{% endif %}{% if query1 %}c={{ query1 }}&{% endif %}page={{ page }}">{{ page }}</a>
+              {% endifequal %}
+          {% else %}
+              ...
+          {% endif %}
+          {% endfor %}
+
+          </span>
+          {{ n_libros }} libros encontrados
+</p>

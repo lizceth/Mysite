@@ -1,0 +1,78 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block title %}{% trans 'Biblioteca Virtual' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'BIBLIOTECA VIRTUAL' %}</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="../../">- {% trans 'Atras' %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div align="left" >
+{% if results %}
+ {% if DatosLibro %}
+<div style="text-align:justify" >
+<table width="900">
+  <tbody>
+    <tr>
+      <TH>{% trans 'Título' %}:</TH>
+      <td>{{ DatosLibro.Titulo }}</td>
+      <td rowspan="5"><IMG src="{{ STATIC_URL }}uploads/{{ DatosLibro.ImagenLibro }}" align="left" border="0"></td>
+    </tr>
+    <tr>
+      <TH>{% trans 'Autor(es)' %}:</TH>
+      <td>{{ DatosLibro.Autores }}</td>
+    </tr>
+    <tr>
+      <TH>{% trans 'Categoría' %}:</TH>
+      <td>{{ DatosLibro.CategoriaLibro }}</td>
+    </tr>
+    <tr>
+      <TH>{% trans 'Sinopsis' %}:</TH>
+      <td>{{ DatosLibro.Sinopsis }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+{% else %}
+   <p>{% trans 'El libro no posee ejemplares, verifique por favor' %}</p>
+{% endif %}
+<p></p>
+        <table width="900">
+        <THEAD>
+        <TR>
+        <th>{% trans 'Nº' %}</th>
+        <TH>{% trans 'Código' %}</TH>
+        <TH>{% trans 'Año' %}</TH>
+        <TH>{% trans 'Edición' %}</TH>
+        <TH>{% trans 'Tomo/Volumen' %}</TH>
+        <TH>{% trans 'Estado' %}</TH>
+        <TH>{% trans 'Préstamo' %}</TH>
+        </TR>
+	</THEAD>
+        <TBODY>
+        {% for Detalle in results %}
+        <TR class="{% cycle 'row1' 'row2' %}">
+           <TD>{{ forloop.counter }}</TD>
+           <TD>{{ Detalle.SubCodigo|escape }}</TD>
+           <TD>{{ Detalle.Anio|escape }}</TD>
+           <TD>{{ Detalle.Edicion|escape }}</TD>
+           <TD>{{ Detalle.Tomo|escape }}</TD>
+           <TD>{{ Detalle.Estado|escape}}</TD>
+           <TD>{% if Detalle.Estado == 'Disponible' %}<a href="../../login/{{ Detalle.id }}/" a>{% trans 'Solicitar Prestamo' %}</a>{% endif %}</TD>
+           <TD></TD>
+        </TR>
+        {% endfor %}
+        </TBODY>
+        </table>
+     {% else %}
+        <p>{% trans 'No se encontraron coincidencias '%}</p>
+     {% endif %}
+
+{% endblock %}

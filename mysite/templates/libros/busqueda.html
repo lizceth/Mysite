@@ -1,0 +1,122 @@
+{% extends "admin/change_list.html" %}
+{% load admin_static admin_list i18n tags_libros %}
+{% load url from future %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {{ media.css }}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+{% endblock %}
+
+{% block title %}{% trans 'Biblioteca Virtual' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'BIBLIOTECA VIRTUAL' %}</h1>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="">
+        {% trans "Home" %}
+      </a>
+       &rsaquo;
+    </div>
+  {% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}
+     
+    {% endblock %}
+    <div class="module filtered" id="changelist">
+      {% block search %}
+          <div id="toolbar">
+              <form id="changelist-search" action="" method="get">
+                  <div><!-- DIV needed for valid HTML -->
+                      <label for="searchbar"><img src="{% static "admin/img/icon_searchbox.png" %}" alt="Search" /></label>
+                      <input type="text" size="40" name="q" value="{{ query|escape }}" id="searchbar" />
+                      <input type="submit" value="{% trans 'Search' %}" />
+
+                      {% if query1 %}
+                          <input type="hidden" name="c" value="{{ query1|escape }}"/>
+                      {% endif %}
+                      <span class="small quiet">{% trans "Busque por Código, Título o Autor de Libro" %}</span>
+
+                  </div>
+              </form>
+          </div>
+          <script type="text/javascript">document.getElementById("searchbar").focus();</script>
+      {% endblock %}
+      
+      {% block date_hierarchy %}{% endblock %}
+
+      {% block filters %}
+          <div id="changelist-filter">
+            <h2>{% trans 'Filter' %}</h2>
+                <h3>Por Categoría</h3>
+                <ul>
+                    <li {% if not query1 %}class="selected"{% endif %}><a href="?{% if query %}q={{ query|escape }}&{% endif %}">Todos/as</a></li>
+                    {% for cat in categorias %}
+                    <li{% if cat.id|escape == query1  %} class="selected" {% endif %}>
+                        <a href="?{% if query %}q={{ query|escape }}&{% endif %}c={{ cat.id }}">{{ cat.Nombre }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+          </div>
+      {% endblock %}
+
+      {% block result_list %}
+          {% if query %}
+              <h2>{% trans 'Resultados para' %} "{{ query|escape }}":</h2>
+          {% endif %}
+          {% if results %}
+              <div class="results">
+                  <table id="result_list">
+                      <thead>
+                          <tr>
+                          <th>{% trans 'Nº' %}</th>
+                          <th>{% trans 'Código' %}</th>
+                          <th>{% trans 'Título' %}</th>
+                          <th>{% trans 'Autor(es)' %}</th>
+                          <th>{% trans 'Categoría' %}</th>
+                          <th>{% trans 'Cantidad' %}</th>
+                          <th>{% trans 'Disponibles' %}</th>
+                          <th>{% trans 'Ver' %}</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for Libro in results.object_list %}
+                              <TR class="{% cycle 'row1' 'row2' %}">
+                              <TD>{{ forloop.counter }}</TD>
+                              <TD>{{ Libro.Codigo|escape }}</TD>
+                              <TD>{{ Libro.Titulo|escape }}</TD>
+                              <TD>{{ Libro.Autores|escape }}</TD>
+                              <TD>{{ Libro.CategoriaLibro|escape }}</TD>
+                              <TD align="center">{{ Libro.detallelibro_set.count|escape }}</TD>
+                              <TD align="center">{{ Libro.Disponibles|escape }}</TD>
+                              <TD><a name="libro" href="ver_detalle/{{ Libro.id }}/" a>{% trans 'Ver' %}</a></TD>
+                              </TR>
+                           {% endfor %}
+                      </tbody>
+                  </table>
+               </div>
+          {% else %}
+              <p>{% trans 'No se encontraron coincidencias' %}</p>
+          {% endif %}
+      {% endblock %}
+      {% block pagination %}
+      {% render_paginator 2 3 %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
