@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block contenido %}
+{% load url from future %}
+{%  if  ultima_lista  %} 
+
+<ul>
+
+    <h1>Pagina de encuestas </h1> 
+    <br>
+    <h3>preguntas:</h3>
+    {%  for  encuesta  in  ultima_lista  %} 
+    <li><a  href= "{% url 'encuestas:detalle' encuesta.id %}">{{encuesta.pregunta}}</a></li> 
+    {%  endfor  %} 
+    </ul> 
+{%  else  %} 
+    <p> No hay encuestas disponibles. </ p> 
+{%  endif  %}
+{% endblock %}
+
+@font-face{
+    font-family:JosefinSans-Regular;
+    src:url(http://fonts.com/JosefinSans-Regular.ttf);
+    }

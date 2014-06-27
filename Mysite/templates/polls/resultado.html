@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1>{{encuesta.pregunta}}</h1>
+<ul>
+    {% for eleccion in encuesta.eleccion_set.all %}
+    <li>{{eleccion.texto_eleccion}} --> {{ eleccion.votos}} voto{{ eleccion.votos|pluralize}}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'encuestas:detalle' encuesta.id %}" type="button" class="btn
+    btn-success"> votar de nuevo?</a>
+{% endblock %}

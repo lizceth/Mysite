@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1>{{ encuesta.pregunta }}</h1>
+
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'encuestas:voto' encuesta.id %}" method="post">
+{% csrf_token %}
+{% for eleccion in encuesta.eleccion_set.all %}
+    <input type="radio" name="eleccion" id="eleccion{{ forloop.counter }}"
+    value="{{ eleccion.id }}">
+    <label for="eleccion{{ forloop.counter }}">
+        {{ eleccion.texto_eleccion }}</label><br />
+{% endfor %}
+<button type="submit/button"  class ="btn btn-primary" />votar </button>
+</form>
+{% endblock %}
